@@ -1,6 +1,6 @@
 def grid_generator(lines, columns):
     return [[" "] * columns for _ in range(lines)]
-    
+
 
 # Prints a line that follows the pattern passed as argument.
 def print_line(line_pattern):
@@ -10,11 +10,11 @@ def print_line(line_pattern):
             print(" ", end="")
 
         if i % 3 == 0:
-            print(f"+", end="")
+            print("+", end="")
 
         print(f"+{line_pattern}", end="")
 
-    print(f"++")
+    print("++")
 
 
 # Prints the grid's columns and puts each
@@ -41,7 +41,7 @@ def print_coordinates():
             print(" ", end="")
 
         if i % 3 == 0:
-            print(f" ", end="")
+            print(" ", end="")
 
         print(f"  {chr(65 + i)} ", end="")
 
