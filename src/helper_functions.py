@@ -1,7 +1,6 @@
-def matrix_generator(lins, cols):
-    m = [[" "] * cols for _ in range(lins)]
-    return m
-
+def grid_generator(lines, columns):
+    return [[" "] * columns for _ in range(lines)]
+    
 
 # Prints a line that follows the pattern passed as argument.
 def print_line(line_pattern):
@@ -50,7 +49,7 @@ def print_coordinates():
 
 
 # Prints the grid that is passed as argument.
-def print_grid(grid):
+def display_grid(grid):
 
     print_coordinates()
 

@@ -1,27 +1,44 @@
-from helper_functions import matrix_generator
+from helper_functions import grid_generator
 
 
-def column_parser(col):
-    col = col.lower()
-    templateString = "abcdefghi"
-    resultCol = templateString.index(col) if col in templateString else False
-    return resultCol
+def parse_column(column):
+    TEMPLATE_STRING = "ABCDEFGHI"
+    
+    column = column.upper()
+
+    if column in TEMPLATE_STRING: 
+        return TEMPLATE_STRING.index(column)
+
+    return False
 
 
-def row_parser(row):
+def parse_row(row):
     row = int(row)
-    if row < 1 or row > 9:
-        return False
-    else:
-        return row - 1
+    if row >= 1 or row <= 9:
+        return row
+    
+    return False
 
 
-def value_parser(value):
+def parse_value(value):
     value = int(value)
-    if value < 1 or value > 9:
-        return False
-    else:
+    if value >= 1 or value <= 9:
         return value
+    
+    return False
+
+
+def parse_input(input):
+    splited_line = input.split(":")
+
+    column, row = (splited_line[0]).split(",")
+    value = splited_line[1]
+
+    parsedRow = parse_row(row) 
+    parsedColumn = parse_column(column) 
+    parsedValue = parse_value(value) 
+
+    return parsedRow, parsedColumn, parsedValue
 
 
 def check_hor_ver(matrix, targetRow, targetCol, value):
@@ -60,33 +77,17 @@ def check_block(matrix, targetRow, targetCol, value):
     return isValidMove, motive
 
 
-def config_parser(configFile, playFile=False):
+def populate_grid(configFile, playFile=False):
     with open(configFile) as file:
-        configMatrix = matrix_generator(9, 9)
-        quantityOfHints = 0
-
+        configMatrix = grid_generator(9, 9)
+        hintCounter = 0
         for line in file:
-            quantityOfHints += 1
-            line = "".join(line.split())
-            (col, _, row, _, value) = (line)[:5]
+            row, column, value = parse_input(line)
+                        
+            configMatrix[row][column] = value
+            hintCounter += 1
 
-            resultCol = column_parser(col)
-            resultRow = row_parser(row)
-            resultValue = value_parser(value)
-
-            if resultRow is False:
-                print(f"False o {resultRow}")
-                exit()
-            if resultCol is False:
-                print(f"False o {resultCol}")
-                exit()
-            if resultValue is False:
-                print(f"False o {resultValue}")
-                exit()
-
-            configMatrix[resultRow][resultCol] = resultValue
-
-        return configMatrix, quantityOfHints
+        return configMatrix, hintCounter
 
 
-config_parser("teste.txt")
+populate_grid("teste.txt")
