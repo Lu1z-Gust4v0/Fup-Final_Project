@@ -1,10 +1,10 @@
-from helper_functions import grid_generator
+from helper_functions import display_grid, grid_generator
 
 
 def parse_column(column):
     TEMPLATE_STRING = "ABCDEFGHI"
     
-    column = column.upper()
+    column = column.upper().strip()
 
     if column in TEMPLATE_STRING: 
         return TEMPLATE_STRING.index(column)
@@ -13,15 +13,15 @@ def parse_column(column):
 
 
 def parse_row(row):
-    row = int(row)
+    row = int(row.strip())
     if row >= 1 or row <= 9:
-        return row
+        return row - 1
     
     return False
 
 
 def parse_value(value):
-    value = int(value)
+    value = int(value.strip())
     if value >= 1 or value <= 9:
         return value
     
@@ -34,11 +34,17 @@ def parse_input(input):
     column, row = (splited_line[0]).split(",")
     value = splited_line[1]
 
-    parsedRow = parse_row(row) 
-    parsedColumn = parse_column(column) 
-    parsedValue = parse_value(value) 
+    # Debug
+    # print(f"col: {column} row: {row} value: {value}")
 
-    return parsedRow, parsedColumn, parsedValue
+    parsed_row = parse_row(row) 
+    parsed_column = parse_column(column) 
+    parsed_value = parse_value(value) 
+
+    # Debug
+    # print(f"col: {parsed_column} row: {parsed_row} value: {parsed_value}")
+
+    return parsed_row, parsed_column, parsed_value
 
 
 def check_hor_ver(matrix, targetRow, targetCol, value):
@@ -79,15 +85,17 @@ def check_block(matrix, targetRow, targetCol, value):
 
 def populate_grid(configFile, playFile=False):
     with open(configFile) as file:
-        configMatrix = grid_generator(9, 9)
+        initialGrid = grid_generator(9, 9)
         hintCounter = 0
         for line in file:
             row, column, value = parse_input(line)
-                        
-            configMatrix[row][column] = value
+
+            initialGrid[row][column] = value
             hintCounter += 1
 
-        return configMatrix, hintCounter
+        return initialGrid, hintCounter
 
 
-populate_grid("teste.txt")
+# populate_grid("teste.txt")
+result_grid, hintCount = populate_grid("teste.txt")
+display_grid(result_grid)
