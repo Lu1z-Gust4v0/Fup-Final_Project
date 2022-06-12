@@ -1,4 +1,5 @@
-from helper_functions import grid_generator
+from .helper_functions import grid_generator
+from .check_moves import check_all_moves, check_block, check_hint, check_hor_ver
 
 
 def parse_column(column):
@@ -13,7 +14,7 @@ def parse_column(column):
 
 def parse_row(row):
     row = int(row.strip())
-    if row >= 1 or row <= 9:
+    if row >= 1 and row <= 9:
         return row - 1
 
     return False
@@ -46,50 +47,28 @@ def parse_input(input):
     return parsed_row, parsed_column, parsed_value
 
 
-def check_hor_ver(matrix, target_row, target_col, value):
-    is_valid_move = True
-    motive = []
-    for i in range(9):
-        # Check horizontally
-        if i != target_col:
-            if matrix[target_row][i] == value:
-                is_valid_move = False
-                motive = ["row", target_row, i]
-                break
-        # Check vertically
-        if i != target_row:
-            if matrix[i][target_col] == value:
-                is_valid_move = False
-                motive = ["col", i, target_col]
-                break
-
-    return is_valid_move, motive
-
-
-def check_block(matrix, target_row, target_col, value):
-    is_valid_move = True
-    motive = []
-    row_block = int(target_row / 3)
-    col_block = int(target_col / 3)
-
-    for i in range(row_block * 3, row_block * 3 + 3):
-        for j in range(col_block * 3, col_block * 3 + 3):
-            if matrix[i][j] == value:
-                is_valid_move = False
-                motive = ["block", i, j]
-                break
-
-    return is_valid_move, motive
-
-
 def populate_grid(config_file, play_file=False):
     with open(config_file) as file:
         initial_grid = grid_generator(9, 9)
         hint_counter = 0
+        wrong_hints = []
+
         for line in file:
             row, column, value = parse_input(line)
+            # Não mude isso daqui lg é para saber se as entradas tao erradas por causa
+            # das condicoes do sudoku
+            is_good_input, hint_motive = check_hint(row, column, value, line)
+            is_good_move, move_motive = check_all_moves(
+                initial_grid, row, column, value, line
+            )
 
-            initial_grid[row][column] = value
+            if is_good_input and is_good_move:
+                initial_grid[row][column] = value
+            elif is_good_input is False:
+                wrong_hints.append(hint_motive)
+            else:
+                wrong_hints.append(move_motive)
+
             hint_counter += 1
 
-        return initial_grid, hint_counter
+        return initial_grid, hint_counter, wrong_hints
