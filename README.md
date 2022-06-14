@@ -1,16 +1,18 @@
-# Final Project - Sudoku 
---- 
+# Final Project - **Sudoku**
 
-Welcome to my final project for my programming fundamentals class at UFC. 
-The project consists of a python implementation of the game called Sudoku, 
-which the objective is to complete a 9x9 grid with numbers between 1 and 9
-without repeating a number in a column, line, and within a 3x3 square. 
+The project consists of a terminal **Sudoku** game written in python.   
+<br/>
 
----
-## What I've learned
+> **Sudoku** is a logic-based, combinatorial number-placement puzzle. In classic **Sudoku**, <br/> 
+> the objective is to fill a 9 × 9 grid with digits so that each column, each row, 
+> and each <br/> of the nine 3 × 3 subgrids that compose the grid contain all of the digits 
+> from 1 to 9.
  
 ## Participants
 
-## Getting Started 
-
-## License MIT 
+| Student's name             | Enrolment number | 
+| --------------------------           | ------ |
+| Luiz Gustavo Marques Costa           | xxxxxx |
+| Saide Cavalcante Rodriges            | xxxxxx |
+| Antônio Cardoso do Nascimento Neto   | xxxxxx |
+<br/>
