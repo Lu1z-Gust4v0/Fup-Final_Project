@@ -1,5 +1,6 @@
 from .helper_functions import grid_generator
-from .check_moves import check_all_moves, check_block, check_hint, check_hor_ver
+from .check_moves import check_all_moves, check_hint
+import re
 
 
 def parse_column(column):
@@ -34,20 +35,38 @@ def parse_input(input):
     column, row = (splited_line[0]).split(",")
     value = splited_line[1]
 
-    # Debug
-    # print(f"col: {column} row: {row} value: {value}")
-
     parsed_row = parse_row(row)
     parsed_column = parse_column(column)
     parsed_value = parse_value(value)
 
-    # Debug
-    # print(f"col: {parsed_column} row: {parsed_row} value: {parsed_value}")
-
     return parsed_row, parsed_column, parsed_value
 
 
-def populate_grid(config_file, play_file=False):
+def raw_input(input):
+    no_whitespaces = re.compile(r"\s*")
+    input_pattern = re.compile(r"([a-i]),([1-9]):([1-9])", flags=re.IGNORECASE)
+
+    new_input = re.sub(no_whitespaces, "", input)
+    column, row, value = input_pattern.search(new_input).groups()  # pyright: ignore
+
+    return row, column, value
+
+
+def search_for_delete_cmd(input):
+    no_whitespaces = re.compile(r"\s*")
+    input_pattern = re.compile(r"(d)([a-i]),([1-9])", flags=re.IGNORECASE)
+
+    new_input = no_whitespaces.sub(input, "")
+    is_matched = input_pattern.search(new_input)
+
+    if is_matched is not None:
+        _, column, row = is_matched.groups()  # pyright: ignore
+        return _, column, row
+
+    return None
+
+
+def populate_grid(config_file):
     with open(config_file) as file:
         initial_grid = grid_generator(9, 9)
         hint_counter = 0
@@ -63,7 +82,7 @@ def populate_grid(config_file, play_file=False):
             )
 
             if is_good_input and is_good_move:
-                initial_grid[row][column] = value
+                initial_grid[row][column] = value  # pyright: ignore
             elif is_good_input is False:
                 wrong_hints.append(hint_motive)
             else:
