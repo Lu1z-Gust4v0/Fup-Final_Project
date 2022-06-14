@@ -22,7 +22,7 @@ def parse_row(row):
 
 def parse_value(value):
     value = int(value.strip())
-    if value >= 1 or value <= 9:
+    if value >= 1 and value <= 9:
         return value
 
     return False
