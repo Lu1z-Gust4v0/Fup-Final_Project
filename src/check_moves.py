@@ -1,8 +1,9 @@
 def check_hor_ver(matrix, target_row, target_col, value, line):
     for i in range(9):
-        # Not check for the value on same col
+        # Not check for the value on same column
         if i != target_col:
             # Check horizontally
+            # TODO: deixar algo tipo matrix[i][j]["value"] == value
             if matrix[target_row][i] == value:
                 return False, ["bad row move", target_row, i, value, line]
         # Not check for value on same row
@@ -40,6 +41,7 @@ def check_all_moves(matrix, target_row, target_col, value, line):
         return False, mot_hor
     elif is_good_block is False:
         return False, mot_block
+    # TODO: check for matrix[target_row][target_col]["is_hint"] == True
 
     return True, []
 
