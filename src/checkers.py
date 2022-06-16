@@ -3,12 +3,11 @@
 def check_hor_ver(matrix, target_row, target_col, value):
     for i in range(9):
         # Check horizontally
-        # TODO: deixar algo tipo matrix[i][j]["value"] == value
-        if matrix[target_row][i] == value:
+        if matrix[target_row][i]["value"] == value:
             return False, ["bad row move", target_row, i, value]
 
         # Check vertically
-        if matrix[i][target_col] == value:
+        if matrix[i][target_col]["value"] == value:
             return False, ["bad column move", i, target_col, value]
 
     return True, []
@@ -28,7 +27,7 @@ def check_block(matrix, target_row, target_col, value):
         # We start our iteration in col_block * 3 to col_block * 3 + 3
         # If we receive a target_col of index "8" we will be in a col range of [6,9)
         for j in range(col_block * 3, col_block * 3 + 3):
-            if matrix[i][j] == value:
+            if matrix[i][j]["value"] == value:
                 return False, ["bad block move", i, j, value]
 
     return True, []
@@ -43,13 +42,17 @@ def check_all_moves(matrix, target_row, target_col, value):
     # If we didn't have this, our check_moves will return False, because they
     # Found a value on the existing matrix with the same value we want to insert
     # In that way we didn't need to do a lot of if statements in our check fn
-    if matrix[target_row][target_col] == value:
+    if matrix[target_row][target_col]["value"] == value:
         return True, []
-    if is_valid_hor_ver is False:
+    elif is_valid_hor_ver is False:
         return False, mot_hor
     elif is_valid_block is False:
         return False, mot_block
-    # TODO: check for matrix[target_row][target_col]["is_hint"] == True
+
+    # We only check if it is a hint here because of the initial population of grid
+    # If some hint or user_input is repeated it will return True on the first if statement
+    elif matrix[target_row][target_col]["is_hint"]:
+        return False, ["is a hint", target_row, target_col, value]
 
     return True, []
 

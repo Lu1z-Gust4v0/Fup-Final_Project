@@ -25,7 +25,7 @@ def print_columns(list, count):
         if i % 3 == 0:
             print("|", end="")
 
-        print(f"| {list[i]} ", end="")
+        print(f'| {list[i]["value"]} ', end="")
 
     print(f"||{count + 1}")
 
