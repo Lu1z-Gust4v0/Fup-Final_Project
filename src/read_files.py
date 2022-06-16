@@ -26,7 +26,7 @@ def generate_plays(play_file, initial_grid):
 # a hint_counter and all wrong_hints
 def populate_grid(config_file):
     with open(config_file) as file:
-        # Initialize, initial_grid, hint_counter and wrong_hints
+        # Initialize initial_grid, hint_counter and wrong_hints
         initial_grid = grid_generator(9, 9)
         hint_counter = 0
         wrong_hints = []
