@@ -1,12 +1,12 @@
 import sys
-from src.args_parser import populate_grid
-from src.helper_functions import display_grid
+from src.read_files import populate_grid
+from src.frontend import display_grid
 
 
 def main():
     if len(sys.argv) < 2 or len(sys.argv) > 3:
         print(
-            f""" 
+            f"""
 A quantidade de "{len(sys.argv) -1}" argumentos não é esperada pelo Sudoku
 Por favor, insira ou apenas o arquivo de "cfg" ou o de "cfg" E o de "play"
             """
@@ -32,14 +32,8 @@ Encontramos algumas entradas erradas no arquivo de configuração
 Por favor, conserte as seguintes entradas:
                 """
         )
-        # TODO: Mudar essas linhas pra número pra n ter problema
         for hint in wrong_hints:
-            print(
-                f"""
-Linha: {hint[4]}
-Motivo: {hint[0]}
-"""
-            )
+            print(f"Linha: {hint[4]}, Motivo: {hint[0]}")
         exit()
 
 
