@@ -4,8 +4,9 @@ COLOR = {
     "green": "\033[92m",
     "yellow": "\033[93m",
     "blue": "\033[94m",
-    "reset": "\033[0m"    
+    "reset": "\033[0m"
 }
+
 
 def change_color(text, color):
     return COLOR[color] + f"{text}" + COLOR["reset"]
@@ -19,6 +20,7 @@ def grid_generator(lines, columns):
             {"value": " ", "is_hint": False} for _ in range(columns)
         ] for _ in range(lines)
     ]
+
 
 # Prints a line that follows the pattern passed as argument.
 def print_line(line_pattern):
@@ -49,9 +51,8 @@ def print_columns(list, count):
 
         if list[i]["is_hint"]:
             print(f'| {change_color(list[i]["value"], "blue")} ', end="")
-        else: 
+        else:
             print(f'| {change_color(list[i]["value"], "green")} ', end="")
-    
 
     print(f'||{count + 1}')
 
@@ -87,3 +88,4 @@ def display_grid(grid):
 
     print_coordinates()
     print()
+
