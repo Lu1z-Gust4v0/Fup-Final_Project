@@ -8,13 +8,13 @@ def check_hor_ver(grid, target_row, target_col, value):
     for i in range(9):
         # Check horizontally
         if grid[target_row][i]["value"] == value:
-            return False
+            return False, "valor na mesma linha"
 
         # Check vertically
         if grid[i][target_col]["value"] == value:
-            return False
+            return False, "valor na mesma coluna"
 
-    return True
+    return True, ""
 
 
 # Check if the the move on the block is allowed
@@ -32,38 +32,37 @@ def check_block(grid, target_row, target_col, value):
         # If we receive a target_col of index "8" we will be in a col range of [6,9)
         for j in range(col_block * 3, col_block * 3 + 3):
             if grid[i][j]["value"] == value:
-                return False
+                return False, "valor no mesmo bloco"
 
-    return True
+    return True, ""
 
 
 # We check all moves possible and if the we have a repeted instruction
 def check_all_moves(grid, target_row, target_col, value):
-    valid_hor_ver = check_hor_ver(grid, target_row, target_col, value)
-    valid_block = check_block(grid, target_row, target_col, value)
+    valid_hor_ver, hor_ver_mot = check_hor_ver(grid, target_row, target_col, value)
+    valid_block, block_mot = check_block(grid, target_row, target_col, value)
 
     # Here we check if there is a repeted instruction and we overwrite it
     # If we didn't have this, our check_moves will return False, because they
     # Found a value on the existing grid with the same value we want to insert
     # In that way we didn't need to do a lot of if statements in our check fn
-    if (
-        grid[target_row][target_col]["value"] == value and 
-        not is_cell_hint(grid, target_row, target_col)
+    if grid[target_row][target_col]["value"] == value and not is_cell_hint(
+        grid, target_row, target_col
     ):
-        return True
+        return True, ""
 
     if not valid_hor_ver:
-        return False
-    
+        return False, hor_ver_mot
+
     if not valid_block:
-        return False
+        return False, block_mot
 
     # We only check if it is a hint here because of the initial population of grid
     # If some hint or user_input is repeated it will return True on the first if statement
     if is_cell_hint(grid, target_row, target_col):
-        return False
+        return False, "tentando sobrescrever uma dica"
 
-    return True
+    return True, ""
 
 
 # Check if the grid is fully used, if not returns False
@@ -74,4 +73,3 @@ def check_grid_completed(grid):
                 return False
 
     return True
-
