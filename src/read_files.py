@@ -26,7 +26,7 @@ def populate_moves(moves_file, initial_grid):
                 continue
 
             row, column, value = parsed_input
-            valid_move, _ = check_all_moves(game_grid, row, column, value)
+            valid_move = check_all_moves(game_grid, row, column, value)
 
             # Check if the move is against the game rules.
             if not valid_move:
@@ -58,7 +58,7 @@ def populate_grid(config_file):
             
             row, column, value = parsed_input
             
-            valid_move, _ = check_all_moves(initial_grid, row, column, value)
+            valid_move = check_all_moves(initial_grid, row, column, value)
 
             # Check if the hint it is against the game rules.
             if not valid_move:
