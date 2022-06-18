@@ -14,7 +14,18 @@ def parse_column(column):
 
 # Search for a row in [1,9], if not found return False
 def parse_row(row):
-    row = int(row.strip())
+    no_whitespaces = re.compile(r"\s*")
+    row_pattern = re.compile(r"([1-9])")
+
+    striped_row = no_whitespaces.sub(row, "")
+
+    raw_row = row_pattern.search(striped_row)
+    
+    if not raw_row:
+        return None
+    
+    row = int(raw_row.group(0))
+
     # Return row -1 for a better usage in grid variable that starts on index 0
     if row >= 1 and row <= 9:
         return row - 1
@@ -24,7 +35,18 @@ def parse_row(row):
 
 # Search for a value in [1,9], if not found return False
 def parse_value(value):
-    value = int(value.strip())
+    no_whitespaces = re.compile(r"\s*")
+    value_pattern = re.compile(r"([1-9])")
+
+    striped_value = no_whitespaces.sub(value, "")
+
+    raw_value = value_pattern.search(striped_value)
+    
+    if not raw_value:
+        return None
+
+    value = int(raw_value.group(0))
+
     if value >= 1 and value <= 9:
         return value
 
@@ -42,9 +64,7 @@ def raw_input(input):
     # If the input does not match it returns a None list
     if not input_grouped:
         return False
-    # if input_grouped is None:
-    #     return False, ['no "," or ";"'], False
-
+    
     raw_column, raw_row, raw_value = input_grouped.groups()  # pyright: ignore
     
     return [raw_row, raw_column, raw_value]

@@ -1,4 +1,4 @@
-from .args_parser import parse_input, raw_input
+from .args_parser import parse_input
 from .checkers import check_all_moves, is_cell_hint, check_grid_completed
 from .frontend import display_grid
 
@@ -16,19 +16,16 @@ def interactive_mode(game_grid):
         parsed_input = parse_input(user_input)
 
         if not parsed_input:
-            print("Jogada invalida, tente novamente.")
+            print(f"Jogada ({user_input}) invalida, tente novamente.")
             continue
 
         if len(parsed_input) == 3:
 
             row, column, value = parsed_input
-
             valid_move, _ = check_all_moves(game_grid, row, column, value)
-
-            raw_row, raw_column, raw_value = raw_input(user_input)
             
             if not valid_move:
-                print(f"Jogada ({raw_column},{raw_row}:{raw_value}) Invalida, tente novamente.")
+                print(f"Jogada ({user_input}) invalida, tente novamente.")
                 continue
             
             game_grid[row][column]["value"] = value
