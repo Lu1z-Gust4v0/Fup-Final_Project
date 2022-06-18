@@ -78,3 +78,7 @@ def check_grid_completed(grid):
                 return False
 
     return True
+
+
+def is_cell_hint(grid, row, column):
+    return grid[row][column]["is_hint"]
