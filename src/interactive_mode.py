@@ -12,7 +12,8 @@ def interactive_mode(game_grid):
         display_grid(game_grid)
 
         user_input = input("Faca uma jogada: ")
-
+        print()
+        
         parsed_input = parse_input(user_input)
 
         if not parsed_input:
