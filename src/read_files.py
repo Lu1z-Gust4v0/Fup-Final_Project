@@ -7,6 +7,9 @@ def generate_plays(play_file, initial_grid):
     played_grid = initial_grid
     with open(play_file) as file:
         for line in file:
+
+            # TODO: Fix generate_play functions, since it broke due to the changes 
+            # in `parse_input` function
             row, column, value = parse_input(line)
             raw_row, raw_column, raw_value = raw_input(line)
 
@@ -35,8 +38,16 @@ def populate_grid(config_file):
         for line in file:
             # Receive a line and pass it to parse_input that will return a row, column, and value
             # alredy treated for our usage
-            row, column, value = parse_input(line)
+            parsed_input = parse_input(line)
 
+            # TODO: Be able to print the specific error made by the user
+            # Temporary code
+            if not parsed_input: 
+                print("Folha de dicas invalida")
+                wrong_hints.append("erro")
+                break
+            
+            row, column, value = parsed_input
             # # Checks if the hint input is valid and return a Boolean and a motive
             # is_valid_hint, hint_motive = check_input(row, column, value)
             # # Checks if the move is valid and return a Boolean and a motive
@@ -44,11 +55,12 @@ def populate_grid(config_file):
             #     initial_grid, row, column, value
             # )
 
-            hint_counter += 1
-
             # Checks if both hint and move is valid, if both valid initial_grid receives that value
             # if is_valid_hint and is_valid_move:
             initial_grid[row][column]["value"] = value  # pyright: ignore
+            initial_grid[row][column]["is_hint"] = True
+
+            hint_counter += 1
 
             # Append to wrong_hints list the motive why isn't valid and which line it occurs
             # elif is_valid_hint is False:
