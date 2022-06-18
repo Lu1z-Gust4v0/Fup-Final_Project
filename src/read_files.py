@@ -18,19 +18,19 @@ def populate_moves(moves_file, initial_grid):
                 continue
 
             raw_row, raw_column, raw_value = raw_output
-            row, column, value = parsed_input
 
             # parsed_input is a falsy value when, at least, one of the 
             # values provided by the user is invalid.  
             if not parsed_input:
-                print(f"A jogada ({raw_column}{raw_row}) = {raw_value} eh invalida!")
+                print(f"A jogada ({raw_column},{raw_row}) = {raw_value} eh invalida!")
                 continue
 
+            row, column, value = parsed_input
             valid_move, _ = check_all_moves(game_grid, row, column, value)
 
             # Check if the move is against the game rules.
             if not valid_move:
-                print(f"A jogada ({raw_column}{raw_row}) = {raw_value} eh invalida!")
+                print(f"A jogada ({raw_column},{raw_row}) = {raw_value} eh invalida!")
                 continue
             
             game_grid[row][column]["value"] = value
