@@ -2,15 +2,17 @@ import sys
 from src.batch_mode import batch_mode
 from src.populate import populate_grid
 from src.interactive_mode import interactive_mode
+from src.display import change_color
 
 
 def main():
     if len(sys.argv) != 2 and len(sys.argv) != 3:
         print(
-            f"""
-A quantidade de "{len(sys.argv) -1}" argumentos não é esperada pelo Sudoku
+            change_color(f"""
+A quantidade de "{len(sys.argv) - 1}" argumentos não é esperada pelo Sudoku
 Por favor, insira ou apenas o arquivo de "cfg" ou o de "cfg" E o de "play"
-            """
+            ""","red"
+            )
         )
         exit()
 
@@ -18,19 +20,21 @@ Por favor, insira ou apenas o arquivo de "cfg" ou o de "cfg" E o de "play"
 
     if invalid_hint: 
         print(
-            f"""
+            change_color(f"""
 Arquivo de dicas invalido.
 Dica invalida: {invalid_hint}
-            """
+            ""","red"
+            )
         )
         exit()
 
     if hint_counter < 1 or hint_counter > 80:
         print(
-            f"""
+            change_color(f"""
 A quantidade minima de dicas é 1 e a máxima é 80.
 Você inseriu {hint_counter} dicas. 
-            """
+            """, "red"
+)
         )
         exit()
 

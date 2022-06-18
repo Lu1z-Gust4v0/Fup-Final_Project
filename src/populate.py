@@ -1,6 +1,6 @@
 from .parsers import parse_input, raw_input
 from .checkers import check_all_moves
-from .display import grid_generator
+from .display import grid_generator, change_color
 
 
 def populate_moves(moves_file, initial_grid):
@@ -14,7 +14,7 @@ def populate_moves(moves_file, initial_grid):
 
             # raw_output is a falsy value when the format is invalid
             if not raw_output:
-                print("Formato invalido de jogada.")
+                print(change_color("Formato invalido de jogada.", "red"))
                 continue
 
             raw_row, raw_column, raw_value = raw_output
@@ -22,7 +22,7 @@ def populate_moves(moves_file, initial_grid):
             # parsed_input is a falsy value when, at least, one of the 
             # values provided by the user is invalid.  
             if not parsed_input:
-                print(f"A jogada ({raw_column},{raw_row}) = {raw_value} eh invalida!")
+                print(change_color(f"A jogada ({raw_column},{raw_row}) = {raw_value} eh invalida!", "red"))
                 continue
 
             row, column, value = parsed_input
@@ -30,7 +30,7 @@ def populate_moves(moves_file, initial_grid):
 
             # Check if the move is against the game rules.
             if not valid_move:
-                print(f"A jogada ({raw_column},{raw_row}) = {raw_value} eh invalida!")
+                print(change_color(f"A jogada ({raw_column},{raw_row}) = {raw_value} eh invalida!", "red"))
                 continue
             
             game_grid[row][column]["value"] = value
