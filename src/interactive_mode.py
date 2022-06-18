@@ -1,6 +1,6 @@
-from .args_parser import parse_input
+from .parsers import parse_input
 from .checkers import check_all_moves, is_cell_hint, check_grid_completed
-from .frontend import display_grid
+from .display import display_grid
 
 
 def interactive_mode(game_grid):

@@ -1,6 +1,6 @@
-from .args_parser import parse_input, raw_input
+from .parsers import parse_input, raw_input
 from .checkers import check_all_moves
-from .helper_functions import grid_generator
+from .display import grid_generator
 
 
 def populate_moves(moves_file, initial_grid):

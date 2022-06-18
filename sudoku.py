@@ -1,6 +1,6 @@
 import sys
 from src.batch_mode import batch_mode
-from src.read_files import populate_grid
+from src.populate import populate_grid
 from src.interactive_mode import interactive_mode
 
 

@@ -1,4 +1,4 @@
-from .read_files import populate_moves
+from .populate import populate_moves
 from .checkers import check_grid_completed
 
 def batch_mode(moves_file, initial_grid):
