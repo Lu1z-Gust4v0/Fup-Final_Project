@@ -1,6 +1,6 @@
 import sys
+from src.batch_mode import batch_mode
 from src.read_files import populate_grid
-from src.frontend import display_grid
 from src.interactive_mode import interactive_mode
 
 
@@ -36,6 +36,9 @@ Você inseriu {hint_counter} dicas.
 
     if len(sys.argv) == 2:
         interactive_mode(grid)
+
+    if len(sys.argv) == 3:
+        batch_mode(sys.argv[2], grid)
 
 
 if __name__ == "__main__":
