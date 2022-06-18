@@ -1,7 +1,7 @@
-from .helper_functions import grid_generator
-from .check_moves import check_all_moves, check_block, check_hint, check_hor_ver
+import re
 
 
+# Search for a valid column in TEMPLATE_STRING, if do not exist return False
 def parse_column(column):
     TEMPLATE_STRING = "ABCDEFGHI"
     column = column.upper().strip()
@@ -9,66 +9,108 @@ def parse_column(column):
     if column in TEMPLATE_STRING:
         return TEMPLATE_STRING.index(column)
 
-    return False
+    return None
 
 
+# Search for a row in [1,9], if not found return False
 def parse_row(row):
     row = int(row.strip())
+    # Return row -1 for a better usage in grid variable that starts on index 0
     if row >= 1 and row <= 9:
         return row - 1
 
-    return False
+    return None
 
 
+# Search for a value in [1,9], if not found return False
 def parse_value(value):
     value = int(value.strip())
     if value >= 1 and value <= 9:
         return value
 
-    return False
+    return None
 
 
+def raw_input(input):
+    no_whitespaces = re.compile(r"\s*")
+    input_pattern = re.compile(r"(.*),(.*):(.*)", flags=re.IGNORECASE)
+
+    new_input = no_whitespaces.sub(input, "")
+
+    input_grouped = input_pattern.search(new_input)
+
+    # If the input does not match it returns a None list
+    if not input_grouped:
+        return False
+    # if input_grouped is None:
+    #     return False, ['no "," or ";"'], False
+
+    raw_column, raw_row, raw_value = input_grouped.groups()  # pyright: ignore
+    
+    return [raw_row, raw_column, raw_value]
+
+
+# Search for a delete pattern, if not found return none
+def search_for_delete_cmd(input):
+    no_whitespaces = re.compile(r"\s*")
+    input_pattern = re.compile(r"(d)([a-i]),([1-9])", flags=re.IGNORECASE)
+
+    # Remove all whitespaces in the string
+    new_input = no_whitespaces.sub(input, "")
+    # Try to search for a valid delete pattern, I.E., D<COL>,<LIN>
+    is_matched = input_pattern.search(new_input)
+
+    # If not found, the regex return None
+    if not is_matched:
+        return False
+        
+    # We destructure the groups tuple in a string with "D", that is discarted
+    # column and row value
+    _, column, row = is_matched.groups()  # pyright: ignore
+    return [column, row]
+
+
+# This function receives an input and check if it is a valid input / command. 
 def parse_input(input):
-    splited_line = input.split(":")
 
-    column, row = (splited_line[0]).split(",")
-    value = splited_line[1]
-
-    # Debug
-    # print(f"col: {column} row: {row} value: {value}")
-
-    parsed_row = parse_row(row)
-    parsed_column = parse_column(column)
-    parsed_value = parse_value(value)
+    raw_move_input = raw_input(input)
+    raw_del_input = search_for_delete_cmd(input) 
 
     # Debug
-    # print(f"col: {parsed_column} row: {parsed_row} value: {parsed_value}")
+    # print(raw_move_input)
+    # print(raw_del_input)
 
-    return parsed_row, parsed_column, parsed_value
+    if raw_move_input:
 
+        row, column, value = raw_move_input
 
-def populate_grid(config_file, play_file=False):
-    with open(config_file) as file:
-        initial_grid = grid_generator(9, 9)
-        hint_counter = 0
-        wrong_hints = []
+        parsed_row = parse_row(row)
+        parsed_column = parse_column(column)
+        parsed_value = parse_value(value)
 
-        for line in file:
-            row, column, value = parse_input(line)
-            # Não mude isso daqui lg é para saber se as entradas tao erradas por causa
-            # das condicoes do sudoku
-            is_good_input, hint_motive = check_hint(row, column, value, line)
-            is_good_move, move_motive = check_all_moves(
-                initial_grid, row, column, value, line
-            )
+        # Debug
+        # print(parsed_row)
+        # print(parsed_column)
+        # print(parsed_value)
 
-            if is_good_input and is_good_move:
-                initial_grid[row][column] = value
-            elif is_good_input is False:
-                wrong_hints.append(hint_motive)
-            else:
-                wrong_hints.append(move_motive)
+        # Check each parsed value, if at least one of them is None, return False.
+        if not all(not i == None for i in [parsed_row, parsed_column, parsed_value]):
+            return False
 
-            hint_counter += 1
+        return [parsed_row, parsed_column, parsed_value]
 
-        return initial_grid, hint_counter, wrong_hints
+    elif raw_del_input:
+
+        column, row = raw_del_input
+
+        parsed_row = parse_row(row)
+        parsed_column = parse_column(column)
+
+        # Check each parsed value, if at least one of them is None, return False.        
+        if not all(not i == None for i in [parsed_row, parsed_column]):
+            return False
+
+        return [parsed_row, parsed_column]
+    
+    else: 
+        return False
