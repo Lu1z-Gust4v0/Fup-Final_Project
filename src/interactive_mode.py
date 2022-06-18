@@ -16,16 +16,16 @@ def interactive_mode(game_grid):
         parsed_input = parse_input(user_input)
 
         if not parsed_input:
-            print(f"Jogada ({user_input}) invalida, tente novamente.")
+            print(f"Jogada ({user_input}) invalida, tente novamente.\n")
             continue
 
         if len(parsed_input) == 3:
 
             row, column, value = parsed_input
-            valid_move, _ = check_all_moves(game_grid, row, column, value)
+            valid_move = check_all_moves(game_grid, row, column, value)
             
             if not valid_move:
-                print(f"Jogada ({user_input}) invalida, tente novamente.")
+                print(f"Jogada ({user_input}) invalida, tente novamente.\n")
                 continue
             
             game_grid[row][column]["value"] = value
@@ -35,7 +35,7 @@ def interactive_mode(game_grid):
             row, column = parsed_input
 
             if is_cell_hint(game_grid, row, column):
-                print("Voce nao pode deletar uma dica, tente novamente.")
+                print("Voce nao pode deletar uma dica, tente novamente.\n")
                 continue
 
             game_grid[row][column]["value"] = " "

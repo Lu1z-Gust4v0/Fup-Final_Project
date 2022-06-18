@@ -60,3 +60,4 @@ def display_grid(grid):
     print_line("---")
 
     print_coordinates()
+    print()
