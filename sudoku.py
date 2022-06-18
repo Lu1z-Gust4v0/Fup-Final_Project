@@ -1,6 +1,7 @@
 import sys
 from src.read_files import populate_grid
 from src.frontend import display_grid
+from src.interactive_mode import interactive_mode
 
 
 def main():
@@ -14,7 +15,7 @@ Por favor, insira ou apenas o arquivo de "cfg" ou o de "cfg" E o de "play"
         exit()
 
     (grid, hint_counter, wrong_hints) = populate_grid(sys.argv[1])
-    display_grid(grid)
+    # display_grid(grid)
 
     if hint_counter < 1 or hint_counter > 80:
         print(
@@ -35,6 +36,9 @@ Por favor, conserte as seguintes entradas:
         for hint in wrong_hints:
             print(f"Linha: {hint[4]}, Motivo: {hint[0]}")
         exit()
+
+    if len(sys.argv) == 2:
+        interactive_mode(grid)
 
 
 if __name__ == "__main__":
