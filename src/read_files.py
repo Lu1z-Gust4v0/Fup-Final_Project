@@ -26,48 +26,35 @@ def generate_plays(play_file, initial_grid):
 
 
 # Receives a PathBuf to config_file and return a grid filled with valid hints,
-# a hint_counter and all wrong_hints
+# a hint_counter and all invalid_hints
 def populate_grid(config_file):
     with open(config_file) as file:
-        # Initialize initial_grid, hint_counter and wrong_hints
+        # Initialize initial_grid, hint_counter and invalid_hints
         initial_grid = grid_generator(9, 9)
         hint_counter = 0
-        wrong_hints = []
 
         # For each line in file parse the line
         for line in file:
-            # Receive a line and pass it to parse_input that will return a row, column, and value
-            # alredy treated for our usage
+            # Receive a line and pass it to parse_input that will return list of 
+            # values already treaded. If the input is invalid 'parse_input' will return False.
             parsed_input = parse_input(line)
 
-            # TODO: Be able to print the specific error made by the user
-            # Temporary code
-            if not parsed_input: 
-                print("Folha de dicas invalida")
-                wrong_hints.append("erro")
-                break
+            # Check if the hint passed is in the adequate format.
+            if not parsed_input or len(parsed_input) == 2: 
+                return None, hint_counter, line
             
             row, column, value = parsed_input
-            # # Checks if the hint input is valid and return a Boolean and a motive
-            # is_valid_hint, hint_motive = check_input(row, column, value)
-            # # Checks if the move is valid and return a Boolean and a motive
-            # is_valid_move, move_motive = check_all_moves(
-            #     initial_grid, row, column, value
-            # )
+            
+            valid_move, motive = check_all_moves(initial_grid, row, column, value)
 
-            # Checks if both hint and move is valid, if both valid initial_grid receives that value
-            # if is_valid_hint and is_valid_move:
+            # Check if the hint it is against the game rules.
+            if not valid_move:
+                return None, hint_counter, line
+
             initial_grid[row][column]["value"] = value  # pyright: ignore
             initial_grid[row][column]["is_hint"] = True
 
             hint_counter += 1
 
-            # Append to wrong_hints list the motive why isn't valid and which line it occurs
-            # elif is_valid_hint is False:
-            #     hint_motive.append(hint_counter)
-            #     wrong_hints.append(hint_motive)
-            # else:
-            #     move_motive.append(hint_counter)
-            #     wrong_hints.append(move_motive)
-
-        return initial_grid, hint_counter, wrong_hints
+            
+        return initial_grid, hint_counter, None
