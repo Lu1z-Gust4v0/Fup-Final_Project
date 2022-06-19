@@ -20,10 +20,10 @@ def parse_row(row):
     striped_row = no_whitespaces.sub(row, "")
 
     raw_row = row_pattern.search(striped_row)
-    
+
     if not raw_row:
         return None
-    
+
     row = int(raw_row.group(0))
 
     # Return row -1 for a better usage in grid variable that starts on index 0
@@ -41,7 +41,7 @@ def parse_value(value):
     striped_value = no_whitespaces.sub(value, "")
 
     raw_value = value_pattern.search(striped_value)
-    
+
     if not raw_value:
         return None
 
@@ -64,9 +64,9 @@ def raw_input(input):
     # If the input does not match it returns a None list
     if not input_grouped:
         return False
-    
+
     raw_column, raw_row, raw_value = input_grouped.groups()  # pyright: ignore
-    
+
     return [raw_row, raw_column, raw_value]
 
 
@@ -83,18 +83,18 @@ def search_for_delete_cmd(input):
     # If not found, the regex return None
     if not is_matched:
         return False
-        
+
     # We destructure the groups tuple in a string with "D", that is discarted
     # column and row value
     _, column, row = is_matched.groups()  # pyright: ignore
     return [column, row]
 
 
-# This function receives an input and check if it is a valid input / command. 
+# This function receives an input and check if it is a valid input / command.
 def parse_input(input):
 
     raw_move_input = raw_input(input)
-    raw_del_input = search_for_delete_cmd(input) 
+    raw_del_input = search_for_delete_cmd(input)
 
     # Debug
     # print(raw_move_input)
@@ -114,7 +114,7 @@ def parse_input(input):
         # print(parsed_value)
 
         # Check each parsed value, if at least one of them is None, return False.
-        if not all(not i == None for i in [parsed_row, parsed_column, parsed_value]):
+        if not all(i is not None for i in [parsed_row, parsed_column, parsed_value]):
             return False
 
         return [parsed_row, parsed_column, parsed_value]
@@ -126,11 +126,11 @@ def parse_input(input):
         parsed_row = parse_row(row)
         parsed_column = parse_column(column)
 
-        # Check each parsed value, if at least one of them is None, return False.        
-        if not all(not i == None for i in [parsed_row, parsed_column]):
+        # Check each parsed value, if at least one of them is None, return False.
+        if not all(i is not None for i in [parsed_row, parsed_column]):
             return False
 
         return [parsed_row, parsed_column]
-    
-    else: 
+
+    else:
         return False

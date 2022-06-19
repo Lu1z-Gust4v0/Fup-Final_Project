@@ -8,6 +8,6 @@ def batch_mode(moves_file, initial_grid):
 
     if check_grid_completed(final_grid):
         print(change_color("A grade foi preenchida com sucesso!", "green"))
-        
-    else: 
+
+    else:
         print(change_color("A grade nao foi preenchida!", "red"))
