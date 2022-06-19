@@ -114,7 +114,7 @@ def parse_input(input):
         # print(parsed_value)
 
         # Check each parsed value, if at least one of them is None, return False.
-        if not all(not i == None for i in [parsed_row, parsed_column, parsed_value]):
+        if not all(i is not None for i in [parsed_row, parsed_column, parsed_value]):
             return False
 
         return [parsed_row, parsed_column, parsed_value]
@@ -127,7 +127,7 @@ def parse_input(input):
         parsed_column = parse_column(column)
 
         # Check each parsed value, if at least one of them is None, return False.
-        if not all(not i == None for i in [parsed_row, parsed_column]):
+        if not all(i is not None for i in [parsed_row, parsed_column]):
             return False
 
         return [parsed_row, parsed_column]

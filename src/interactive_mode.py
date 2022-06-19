@@ -18,7 +18,9 @@ def interactive_mode(game_grid):
 
         if not parsed_input:
             print(
-                f"{change_color(f'Jogada ({user_input}) invalida, tente novamente.', 'red')}\n"
+                change_color(
+                    f"Jogada ({user_input}) invalida, tente novamente.\n", "red"
+                )
             )
             continue
 
@@ -44,7 +46,9 @@ def interactive_mode(game_grid):
 
             if is_cell_hint(game_grid, row, column):
                 print(
-                    f"{change_color('Voce nao pode deletar uma dica, tente novamente.', 'red')}\n"
+                    change_color(
+                        "Voce nao pode deletar uma dica, tente novamente.\n", "red"
+                    )
                 )
                 continue
 

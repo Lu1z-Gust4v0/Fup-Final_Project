@@ -4,7 +4,7 @@ COLOR = {
     "green": "\033[92m",
     "yellow": "\033[93m",
     "blue": "\033[94m",
-    "reset": "\033[0m"
+    "reset": "\033[0m",
 }
 
 
@@ -16,9 +16,7 @@ def change_color(text, color):
 # is a dictionary containing `value` and `is_hint`.
 def grid_generator(lines, columns):
     return [
-        [
-            {"value": " ", "is_hint": False} for _ in range(columns)
-        ] for _ in range(lines)
+        [{"value": " ", "is_hint": False} for _ in range(columns)] for _ in range(lines)
     ]
 
 
@@ -54,7 +52,7 @@ def print_columns(list, count):
         else:
             print(f'| {change_color(list[i]["value"], "green")} ', end="")
 
-    print(f'||{count + 1}')
+    print(f"||{count + 1}")
 
 
 # Prints the grid's X cordinates (from A to I).
@@ -88,4 +86,3 @@ def display_grid(grid):
 
     print_coordinates()
     print()
-
