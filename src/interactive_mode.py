@@ -1,6 +1,6 @@
-from .args_parser import parse_input
+from .parsers import parse_input
 from .checkers import check_all_moves, is_cell_hint, check_grid_completed
-from .frontend import display_grid
+from .display import display_grid, change_color
 
 
 def interactive_mode(game_grid):
@@ -11,24 +11,33 @@ def interactive_mode(game_grid):
 
         display_grid(game_grid)
 
-        user_input = input("Faca uma jogada: ")
+        user_input = input(change_color("Faca uma jogada: ", "green"))
         print()
-        
+
         parsed_input = parse_input(user_input)
 
         if not parsed_input:
-            print(f"Jogada ({user_input}) invalida, tente novamente.\n")
+            print(
+                change_color(
+                    f"Jogada ({user_input}) invalida, tente novamente.\n", "red"
+                )
+            )
             continue
 
         if len(parsed_input) == 3:
 
             row, column, value = parsed_input
-            valid_move = check_all_moves(game_grid, row, column, value)
-            
+            valid_move, motive = check_all_moves(game_grid, row, column, value)
+
             if not valid_move:
-                print(f"Jogada ({user_input}) invalida, tente novamente.\n")
+                print(
+                    change_color(
+                        f"Jogada ({user_input}) invalida, tente novamente.", "red"
+                    )
+                )
+                print(change_color(f"Motivo: {motive}\n", "yellow"))
                 continue
-            
+
             game_grid[row][column]["value"] = value
 
         elif len(parsed_input) == 2:
@@ -36,11 +45,15 @@ def interactive_mode(game_grid):
             row, column = parsed_input
 
             if is_cell_hint(game_grid, row, column):
-                print("Voce nao pode deletar uma dica, tente novamente.\n")
+                print(
+                    change_color(
+                        "Voce nao pode deletar uma dica, tente novamente.\n", "red"
+                    )
+                )
                 continue
 
             game_grid[row][column]["value"] = " "
 
         game_finished = check_grid_completed(game_grid)
-    
-    print("Parabens, voce venceu!")
+
+    print(change_color("Parabens, voce venceu!", "green"))
