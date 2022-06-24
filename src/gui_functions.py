@@ -2,7 +2,7 @@ import PySimpleGUI as sg
 from .parsers import parse_input
 from .populate import populate_moves
 from .checkers import check_all_moves, is_cell_hint, check_grid_completed
-    from .display import get_grid
+from .display import get_grid
 
 
 sg.theme('Dark')
