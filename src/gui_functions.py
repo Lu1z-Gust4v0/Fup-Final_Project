@@ -88,4 +88,3 @@ def game_screen_batch(moves_file, initial_grid):
         pop_up('A grade foi preechida com sucesso!', 'PaleGreen')
     else:
         pop_up('A grade não foi preenchida!', 'IndianRed')
-
