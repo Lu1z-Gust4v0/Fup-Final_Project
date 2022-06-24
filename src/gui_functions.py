@@ -7,6 +7,7 @@ from .display import get_grid
 
 sg.theme('Dark')
 
+
 # Pops up a message
 def pop_up(message, color):
     layout = [
