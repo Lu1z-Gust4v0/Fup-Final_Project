@@ -1,5 +1,4 @@
 import sys
-from src.batch_mode import batch_mode
 from src.populate import populate_grid
 from src.gui_functions import pop_up, game_screen, game_screen_batch
 
