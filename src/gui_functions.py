@@ -28,7 +28,7 @@ def game_screen(game_grid):
     
     layout = [
             [sg.Text(get_grid(game_grid), key='-GRID-', font='Courier')],
-            [sg.Text('Faça uma jogada:', text_color='PaleGreen'), sg.InputText(), sg.Button('Ok')]
+            [sg.Text('Faça uma jogada:', text_color='PaleGreen'), sg.InputText(do_not_clear=False), sg.Button('Ok')]
     ]
 
     window = sg.Window('Sudoku', layout)
