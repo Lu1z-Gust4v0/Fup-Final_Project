@@ -58,8 +58,7 @@ def game_screen(game_grid):
             valid_move, motive = check_all_moves(game_grid, row, column, value)
 
             if not valid_move:
-                pop_up(f"Jogada ({user_input}) invalida, tente novamente.\n
-                        Motivo: {motive}.", 'IndianRed')
+                pop_up(f"Jogada ({user_input}) invalida, tente novamente.\nMotivo: {motive}.", 'IndianRed')
                 continue
     
             game_grid[row][column]["value"] = value
