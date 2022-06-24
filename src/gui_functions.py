@@ -4,6 +4,7 @@ from .populate import populate_moves
 from .checkers import check_all_moves, is_cell_hint, check_grid_completed
 from .display import display_grid, change_color, get_grid
 
+
 sg.theme('Dark')
 
 # Pops up a message
@@ -28,7 +29,11 @@ def game_screen(game_grid):
     
     layout = [
             [sg.Text(get_grid(game_grid), key='-GRID-', font='Courier')],
-            [sg.Text('Faça uma jogada:', text_color='PaleGreen'), sg.InputText(do_not_clear=False), sg.Button('Ok', bind_return_key=True)]
+            [
+                sg.Text('Faça uma jogada:', text_color='PaleGreen'),
+                sg.InputText(do_not_clear=False),
+                sg.Button('Ok', bind_return_key=True)
+            ]
     ]
 
     window = sg.Window('Sudoku', layout)
@@ -53,7 +58,8 @@ def game_screen(game_grid):
             valid_move, motive = check_all_moves(game_grid, row, column, value)
 
             if not valid_move:
-                pop_up(f"Jogada ({user_input}) invalida, tente novamente.\nMotivo: {motive}.", 'IndianRed')
+                pop_up(f"Jogada ({user_input}) invalida, tente novamente.\n
+                        Motivo: {motive}.", 'IndianRed')
                 continue
     
             game_grid[row][column]["value"] = value
@@ -74,6 +80,7 @@ def game_screen(game_grid):
             pop_up("Parabens, voce venceu!", 'PaleGreen')
     
     window.close()
+
 
 def game_screen_batch(moves_file, initial_grid):
     final_grid = populate_moves(moves_file, initial_grid)
