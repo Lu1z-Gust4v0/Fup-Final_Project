@@ -108,6 +108,3 @@ def parse_input(input):
         return [parsed_row, parsed_column]
 
     return False
-
-
-parse_input("A,Z:Z")
