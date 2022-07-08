@@ -12,6 +12,8 @@ The project consists of a terminal **Sudoku** game written in python.
 ```
 git clone https://github.com/Lu1z-Gust4v0/Fup-Final_Project.git
 cd Fup-Final_Project/
+pip install PySimpleGUI
+sudo apt-get install python3-tk
 ```
 ## How to play
 * **Interactive mode**
