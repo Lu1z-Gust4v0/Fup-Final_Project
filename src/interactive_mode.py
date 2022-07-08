@@ -16,6 +16,7 @@ def interactive_mode(game_grid):
 
         parsed_input = parse_input(user_input)
 
+        # check for invalid move format
         if not parsed_input:
             print(
                 change_color(
@@ -23,7 +24,8 @@ def interactive_mode(game_grid):
                 )
             )
             continue
-
+        
+        # Normal move
         if len(parsed_input) == 3:
 
             row, column, value = parsed_input
@@ -40,10 +42,12 @@ def interactive_mode(game_grid):
 
             game_grid[row][column]["value"] = value
 
+        # Delete move
         elif len(parsed_input) == 2:
 
             row, column = parsed_input
 
+            # Check if the user is trying to delete a hint
             if is_cell_hint(game_grid, row, column):
                 print(
                     change_color(
@@ -54,6 +58,7 @@ def interactive_mode(game_grid):
 
             game_grid[row][column]["value"] = " "
 
+        # Check if all the cells are fullfiled  
         game_finished = check_grid_completed(game_grid)
 
     print(change_color("Parabens, voce venceu!", "green"))
