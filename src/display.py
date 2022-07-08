@@ -94,7 +94,7 @@ def matriz(lins, cols, val_inic):
 
 # Display grid for GUI version
 def get_grid(grid):
-    m = matriz(9, 9,'   ') 
+    m = matriz(9, 9,'   ')
     for i in range(9):
         for j in range(9):
             m[i][j] = grid[i][j]['value']
@@ -121,4 +121,3 @@ def get_grid(grid):
  ++---+---+---++---+---+---++---+---+---++
     A   B   C    D   E   F    G   H   I 
 '''
-

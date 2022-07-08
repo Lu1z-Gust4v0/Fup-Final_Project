@@ -2,23 +2,25 @@ import PySimpleGUI as sg
 from .parsers import parse_input
 from .populate import populate_moves
 from .checkers import check_all_moves, is_cell_hint, check_grid_completed
-from .display import display_grid, change_color, get_grid
+from .display import get_grid
+
 
 sg.theme('Dark')
+
 
 # Pops up a message
 def pop_up(message, color):
     layout = [
             [sg.Text(message, text_color=color)],
-            [sg.Button('OK')]
+            [sg.Button('Ok', bind_return_key=True)]
     ]
     
     window = sg.Window('Mensagem do Sistema', layout)
 
     while True:
         event, values = window.read()
-
-        if event == 'OK' or event == sg.WIN_CLOSED:
+        
+        if event == 'Ok' or event == sg.WIN_CLOSED:
             break
     
     window.close()
@@ -28,7 +30,11 @@ def game_screen(game_grid):
     
     layout = [
             [sg.Text(get_grid(game_grid), key='-GRID-', font='Courier')],
-            [sg.Text('Faça uma jogada:', text_color='PaleGreen'), sg.InputText(), sg.Button('Ok')]
+            [
+                sg.Text('Faça uma jogada:', text_color='PaleGreen'),
+                sg.InputText(do_not_clear=False),
+                sg.Button('Ok', bind_return_key=True)
+            ]
     ]
 
     window = sg.Window('Sudoku', layout)
@@ -75,6 +81,7 @@ def game_screen(game_grid):
     
     window.close()
 
+
 def game_screen_batch(moves_file, initial_grid):
     final_grid = populate_moves(moves_file, initial_grid)
 
@@ -82,4 +89,3 @@ def game_screen_batch(moves_file, initial_grid):
         pop_up('A grade foi preechida com sucesso!', 'PaleGreen')
     else:
         pop_up('A grade não foi preenchida!', 'IndianRed')
-
